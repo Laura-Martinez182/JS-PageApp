@@ -141,7 +141,7 @@ let Home = {
 
 let getPost = async (id) => {
    try {
-    return information;
+    return information.find(x=> x.id === id);
    } catch (err) {
        console.log('Error getting documents', err)
    }
@@ -158,6 +158,10 @@ let PostShow = {
                 <p> Post Title : ${post.title} </p>
                 <p> Post Content : ${post.content} </p>
                 <p> Post Author : ${post.name} </p>
+                <a class="button is-primary" id="editOption">
+                    Edit
+                </a>
+                </p>
             </section>
         `
     }
