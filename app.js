@@ -166,6 +166,14 @@ let PostShow = {
         `
     }
     , after_render: async () => {
+        document.getElementById("editOption").addEventListener ("click",  () => {
+           if(logged) {
+               location.href = '#/edit'
+           }else{
+            alert (`Please log in first`)
+            location.href = '#/login'
+           }      
+        })
     }
 }
 
@@ -233,6 +241,8 @@ let Register = {
     }
 }
 
+let logged = false;
+
 let Login = {
     render: async () => {
         return /*html*/ `
@@ -276,13 +286,71 @@ let Login = {
             } 
             else {
                 alert(`User with email ${email.value} accessed to the page successfully!`)
-                location.href='#/'
                 document.getElementById("email_input").value = ""
                 document.getElementById("pass_input").value = ""
+                logged = true;
+                location.href = '#/'
             }    
         })
     }
 }
+
+
+
+let Edit = {
+    render: async () => {
+        return /*html*/ `
+            <section class="section">
+                <div class="field">
+                    <p class="control has-icons-left has-icons-right">
+                        <input class="input" id="postId" type="text" placeholder="Enter the Id">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-check"></i>
+                        </span>
+                        <span class="icon is-small is-right">
+                            <i class="fas fa-check"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="field">
+                    <p class="control has-icons-left">
+                        <input class="input" id="postTitle" type="text" placeholder="Enter the title">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-book"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="field">
+                    <p class="control has-icons-left">
+                        <input class="input" id="postContent" type="text" placeholder="Enter the content">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-folder"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="field">
+                    <p class="control has-icons-left">
+                        <input class="input" id="postAuthor" type="text" placeholder="Enter the author">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-cloud"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="field">
+                    <p class="control">
+                        <button class="button is-primary" id="edit">
+                        <strong>Update</strong>
+                        </button>
+                    </p>
+                </div>
+            </section>
+        `
+    }
+
+    , after_render: async () => {
+    }
+}
+
 
 // List of supported routes. Any url other than these routes will throw a 404 error
 const routes = {
@@ -291,6 +359,7 @@ const routes = {
     , '/p/:id'      : PostShow
     , '/register'   : Register
     , '/login'      : Login
+    , '/edit'       : Edit
 };
 
 
