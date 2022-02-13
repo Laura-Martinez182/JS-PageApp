@@ -69,11 +69,11 @@ let Navbar = {
                         <div class="navbar-end">
                             <div class="navbar-item">
                                 <div class="buttons">
-                                    <a class="button is-primary" href="#/register">
+                                    <a class="button is-primary" href="/#/register">
                                         <strong>Sign up</strong>
                                     </a>
-                                    <a class="button is-light" href="#/login>
-                                        <strong>Log in</strong>
+                                    <a class="button is-secondary" href="/#/login">
+                                        <strong>Log in<strong>
                                     </a>
                                 </div>
                             </div>
@@ -165,8 +165,6 @@ let PostShow = {
     , after_render: async () => {
     }
 }
-
-/* let login={} */
 
 let Register = {
     render: async () => {
@@ -285,7 +283,7 @@ const routes = {
     , '/about'      : About
     , '/p/:id'      : PostShow
     , '/register'   : Register
-    , '/login'      :Login
+    , '/login'      : Login
 };
 
 
