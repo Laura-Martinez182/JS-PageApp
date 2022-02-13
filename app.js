@@ -73,7 +73,7 @@ let Navbar = {
                                         <strong>Sign up</strong>
                                     </a>
                                     <a class="button is-secondary" href="/#/login">
-                                        <strong>Log in<strong>
+                                        <strong>Log in</strong>
                                     </a>
                                 </div>
                             </div>
@@ -220,6 +220,9 @@ let Register = {
             } 
             else {
                 alert(`User with email ${email.value} was successfully submitted!`)
+                document.getElementById("email_input").value = ""
+                document.getElementById("pass_input").value = ""
+                document.getElementById("repeat_pass_input").value = ""
             }    
         })
     }
@@ -272,6 +275,8 @@ let Login = {
             } 
             else {
                 alert(`User with email ${email.value} accessed the page successfully!`)
+                document.getElementById("email_input").value = ""
+                document.getElementById("pass_input").value = ""
             }    
         })
     }
