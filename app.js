@@ -1,34 +1,90 @@
-"use strict";
+const Utils = { 
 
-/* import Home         from './views/pages/Home.js'
-import About        from './views/pages/About.js'
-import Error404     from './views/pages/Error404.js'
-import PostShow     from './views/pages/PostShow.js'
-import Register     from './views/pages/Register.js'
+    parseRequestURL : () => {
 
-import Navbar       from './views/components/Navbar.js'
-import Bottombar    from './views/components/Bottombar.js' 
+        let url = location.hash.slice(1).toLowerCase() || '/';
+        let r = url.split("/")
+        let request = {
+            resource    : null,
+            id          : null,
+            verb        : null
+        }
+        request.resource    = r[1]
+        request.id          = r[2]
+        request.verb        = r[3]
 
-import Utils        from './services/Utils.js' */
+        return request
+    }
 
-let Home = {
-    render : async () => {
-        let posts = await getPostsList()
+
+    , sleep: (ms) => {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+}
+
+let Bottombar = {
+    render: async () => {
         let view =  /*html*/`
-            <section class="section">
-                <h1> Home </h1>
-                <ul>
-                    ${ posts.map(post => 
-                        /*html*/`<li><a href="#/p/${post.id}">${post.title}</a></li>`
-                        ).join('\n ')
-                    }
-                </ul>
-            </section>
+        <footer class="footer">
+            <div class="content has-text-centered">
+                <p>
+                    This is my foot. There are many like it, but this one is mine.
+                </p>
+            </div>
+        </footer>
         `
         return view
-    }
-    , after_render: async () => {
-    }
+    },
+    after_render: async () => { }
+
+}
+
+let Navbar = {
+    render: async () => {
+        let view =  /*html*/`
+             <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="container">
+                    <div class="navbar-brand">
+                        <a class="navbar-item" href="#/">
+                            <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+                        </a>
+                        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                            <span aria-hidden="true"></span>
+                            <span aria-hidden="true"></span>
+                            <span aria-hidden="true"></span>
+                        </a>
+                    </div>
+                    <div id="navbarBasicExample" class="navbar-menu is-active" aria-expanded="false">
+                        <div class="navbar-start">
+                            <a class="navbar-item" href="#/">
+                                Home
+                            </a>
+                            <a class="navbar-item" href="#/about">
+                                About
+                            </a>
+                            <a class="navbar-item" href="#/secret">
+                                Secret
+                            </a>
+                        </div>
+                        <div class="navbar-end">
+                            <div class="navbar-item">
+                                <div class="buttons">
+                                    <a class="button is-primary" href="#/register">
+                                        <strong>Sign up</strong>
+                                    </a>
+                                    <a class="button is-light">
+                                        Log in
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        `
+        return view
+    },
+    after_render: async () => { }
 
 }
 
@@ -57,6 +113,44 @@ let Error404 = {
     }
     , after_render: async () => {
     }
+}
+
+let getPostsList = async () => {
+    const options = {
+       method: 'GET',
+       headers: {
+           'Content-Type': 'application/json'
+       }
+   };
+   try {
+       const response = await fetch(`https://5bb634f6695f8d001496c082.mockapi.io/api/posts`, options)
+       const json = await response.json();
+       // console.log(json)
+       return json
+   } catch (err) {
+       console.log('Error getting documents', err)
+   }
+}
+
+let Home = {
+   render : async () => {
+       let posts = await getPostsList()
+       let view =  /*html*/`
+           <section class="section">
+               <h1> Home </h1>
+               <ul>
+                   ${ posts.map(post => 
+                       /*html*/`<li><a href="#/p/${post.id}">${post.title}</a></li>`
+                       ).join('\n ')
+                   }
+               </ul>
+           </section>
+       `
+       return view
+   }
+   , after_render: async () => {
+   }
+
 }
 
 let getPost = async (id) => {
@@ -134,12 +228,10 @@ let Register = {
                         </button>
                     </p>
                 </div>
-
             </section>
         `
     }
-    // All the code related to DOM interactions and controls go in here.
-    // This is a separate call as these can be registered only after the DOM has been painted
+
     , after_render: async () => {
         document.getElementById("register_submit_btn").addEventListener ("click",  () => {
             let email       = document.getElementById("email_input");
@@ -154,102 +246,6 @@ let Register = {
                 alert(`User with email ${email.value} was successfully submitted!`)
             }    
         })
-    }
-}
-
-let Navbar = {
-    render: async () => {
-        let view =  /*html*/`
-             <nav class="navbar" role="navigation" aria-label="main navigation">
-                <div class="container">
-                    <div class="navbar-brand">
-                        <a class="navbar-item" href="/#/">
-                            <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
-                        </a>
-
-                        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-                            <span aria-hidden="true"></span>
-                            <span aria-hidden="true"></span>
-                            <span aria-hidden="true"></span>
-                        </a>
-                    </div>
-
-                    <div id="navbarBasicExample" class="navbar-menu is-active" aria-expanded="false">
-                        <div class="navbar-start">
-                            <a class="navbar-item" href="/#/">
-                                Home
-                            </a>
-                            <a class="navbar-item" href="/#/about">
-                                About
-                            </a>
-                            <a class="navbar-item" href="/#/secret">
-                                Secret
-                            </a>
-                        </div>
-                        <div class="navbar-end">
-                            <div class="navbar-item">
-                                <div class="buttons">
-                                    <a class="button is-primary" href="/#/register">
-                                        <strong>Sign up</strong>
-                                    </a>
-                                    <a class="button is-light">
-                                        Log in
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-        `
-        return view
-    },
-    after_render: async () => { }
-
-}
-
-let Bottombar = {
-    render: async () => {
-        let view =  /*html*/`
-        <footer class="footer">
-            <div class="content has-text-centered">
-                <p>
-                    This is my foot. There are many like it, but this one is mine.
-                </p>
-            </div>
-        </footer>
-        `
-        return view
-    },
-    after_render: async () => { }
-
-}
-
-const Utils = { 
-    // --------------------------------
-    //  Parse a url and break it into resource, id and verb
-    // --------------------------------
-    parseRequestURL : () => {
-
-        let url = location.hash.slice(1).toLowerCase() || '/';
-        let r = url.split("/")
-        let request = {
-            resource    : null,
-            id          : null,
-            verb        : null
-        }
-        request.resource    = r[1]
-        request.id          = r[2]
-        request.verb        = r[3]
-
-        return request
-    }
-
-    // --------------------------------
-    //  Simple sleep implementation
-    // --------------------------------
-    , sleep: (ms) => {
-        return new Promise(resolve => setTimeout(resolve, ms));
     }
 }
 
