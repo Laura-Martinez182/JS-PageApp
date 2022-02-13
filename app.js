@@ -68,10 +68,10 @@ let Navbar = {
                         <div class="navbar-end">
                             <div class="navbar-item">
                                 <div class="buttons">
-                                    <a class="button is-primary" href="/#/register">
+                                    <a class="button is-primary" href="#/register">
                                         <strong>Sign up</strong>
                                     </a>
-                                    <a class="button is-secondary" href="/#/login">
+                                    <a class="button is-secondary" href="#/login">
                                         <strong>Log in</strong>
                                     </a>
                                 </div>
@@ -276,6 +276,7 @@ let Login = {
             } 
             else {
                 alert(`User with email ${email.value} accessed to the page successfully!`)
+                location.href='#/'
                 document.getElementById("email_input").value = ""
                 document.getElementById("pass_input").value = ""
             }    
