@@ -4,7 +4,6 @@ const information = [{"id":"1","createdAt":"2018-10-04T12:51:56.032Z","name":"Ma
 
 const Utils = { 
     parseRequestURL : () => {
-
         let url = location.hash.slice(1).toLowerCase() || '/';
         let r = url.split("/")
         let request = {
@@ -142,7 +141,7 @@ let Home = {
 
 let getPost = async (id) => {
    try {
-    return information.find(x=> x.id === id);
+    return information;
    } catch (err) {
        console.log('Error getting documents', err)
    }
@@ -200,7 +199,7 @@ let Register = {
                 <div class="field">
                     <p class="control">
                         <button class="button is-primary" id="register_submit_btn">
-                        Register
+                        <strong>Register</strong>
                         </button>
                     </p>
                 </div>
@@ -215,6 +214,7 @@ let Register = {
             let repeatPass  = document.getElementById("repeat_pass_input");
             if (pass.value != repeatPass.value) {
                 alert (`The passwords dont match`)
+                document.getElementById("repeat_pass_input").value = ""
             } else if (email.value =='' | pass.value == '' | repeatPass == '') {
                 alert (`The fields cannot be empty`)
             } 
@@ -223,6 +223,7 @@ let Register = {
                 document.getElementById("email_input").value = ""
                 document.getElementById("pass_input").value = ""
                 document.getElementById("repeat_pass_input").value = ""
+                location.href = '#/login'
             }    
         })
     }
@@ -254,7 +255,7 @@ let Login = {
                 <div class="field">
                     <p class="control">
                         <button class="button is-primary" id="login_submit_btn">
-                        Login
+                        <strong>Login</strong>
                         </button>
                     </p>
                 </div>
@@ -266,15 +267,11 @@ let Login = {
         document.getElementById("login_submit_btn").addEventListener ("click",  () => {
             let email       = document.getElementById("email_input");
             let pass        = document.getElementById("pass_input");
-            /* let repeatPass  = document.getElementById("repeat_pass_input"); */
-            /* if (pass.value != repeatPass.value) {
-                alert (`The passwords dont match`)
-            } */ 
-            if (email.value =='' | pass.value == ''/*  | repeatPass == '' */) {
+            if (email.value =='' | pass.value == '') {
                 alert (`The fields cannot be empty`)
             } 
             else {
-                alert(`User with email ${email.value} accessed the page successfully!`)
+                alert(`User with email ${email.value} accessed to the page successfully!`)
                 document.getElementById("email_input").value = ""
                 document.getElementById("pass_input").value = ""
             }    
